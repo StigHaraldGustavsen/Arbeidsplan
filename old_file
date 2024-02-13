@@ -26,7 +26,7 @@ RUN version=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEAS
     && chmod 0755 /usr/local/bin/chromedriver
 
 # INSTALL SELENIUM
-RUN pip install selenium
+RUN pip install selenium beautifullsoupe4 webdriver_manager lxml
 
 # RUN TEST SCRIPT
 COPY test_selenium.py test_selenium.py
