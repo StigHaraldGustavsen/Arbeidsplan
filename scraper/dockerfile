@@ -1,8 +1,8 @@
 FROM python:3.10
 
 WORKDIR /app
-
 COPY . /app
+COPY .env /app/.env
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
@@ -10,6 +10,30 @@ RUN apt-get update && apt-get install -y unzip && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb && \
+    apt-get -y install cron vim && \
     apt-get clean
 
+COPY crontab /etc/cron.d/crontab
+#COPY createEnviroment.sh /app/createEnviroment.sh
+
+COPY main.py /app/main.py
+
+# Add Python path to cron
+#RUN echo "PATH=/usr/local/bin:\$PATH" > /etc/cron.d/cron_env
+
+# Cron Job
+RUN chmod 0644 /etc/cron.d/crontab
+RUN chmod +x /app/createEnviroment.sh
+
+RUN /usr/bin/crontab /etc/cron.d/crontab
+RUN chmod +x /app/main.py
+#RUN echo $(which python) #find the location of the python interpeter
+
+
 CMD [ "python", "main.py" ]
+
+#CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']
+#CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']
+#CMD ["sh", '-c', './app/creatEnviroment.sh', '&&', 'cron', '-f']
+#CMD ["./createEnviroment.sh", "&&", "cron", "-f"]
+#CMD ["cron", "-f"]
