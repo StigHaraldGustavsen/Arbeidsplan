@@ -5,14 +5,14 @@ import os
 import sys
 from datetime import datetime
 
-current_directory = os.getcwd()
-print("Current Working Directory:", current_directory)
+# current_directory = os.getcwd()
+# print("Current Working Directory:", current_directory)
 
-new_directory = "/app"
-os.chdir(new_directory)
+# new_directory = "/app"
+# os.chdir(new_directory)
 
-updated_directory = os.getcwd()
-print("Updated Working Directory:", updated_directory)
+# updated_directory = os.getcwd()
+# print("Updated Working Directory:", updated_directory)
 
 try:
     from dotenv import load_dotenv
@@ -46,36 +46,39 @@ print('logging in with: '+user_name+" and pw:"+len(password)*'*')
 driver.get("https://Arbeidsplan.uloba.no/Home/PersonIndexPrint")
 
 time.sleep(1)
+try:
+    user_name_field = driver.find_element(By.ID,value="login-username")
+    user_name_field.send_keys(user_name)
+    next_button = driver.find_element(By.ID,value='btn-next')
+    next_button.click()
 
-user_name_field = driver.find_element(By.ID,value="login-username")
-user_name_field.send_keys(user_name)
-next_button = driver.find_element(By.ID,value='btn-next')
-next_button.click()
+    time.sleep(1+random.randint(0,1))
 
-time.sleep(1+random.randint(0,1))
+    password_field = driver.find_element(By.ID,value="login-password")
+    password_field.send_keys(password)
+    login_button = driver.find_element(By.ID,value='btn-login')
+    login_button.click()
 
-password_field = driver.find_element(By.ID,value="login-password")
-password_field.send_keys(password)
-login_button = driver.find_element(By.ID,value='btn-login')
-login_button.click()
+    time.sleep(1+random.randint(0,1))
+except:
+    print('allready logged inn, or the login page not found.')
 
-time.sleep(1+random.randint(0,1))
-
+#Load the page of all the next 6 weeks.
 driver.get('https://arbeidsplan.uloba.no/Home/PersonIndexPrint')
 
-
-#print(driver.page_source)
 
 page = driver.page_source
 try:
     page = page.split('</form></div>')[1]
     page = page.split('<div class="page-break"></div>')[0]
-    page = "<p>Extracted:"+str(datetime.now())+"</p>/n"+page
+    page = page+"<p>Extracted: "+str(datetime.now())+"</p>"
     f = open("tables.html", "w")
     f.write(page)
     f.close()
 except:
     print(str(datetime.now)+" Failed to find properly formatted data") 
+
+#print(driver.page_source)
 
 driver.quit()
 
