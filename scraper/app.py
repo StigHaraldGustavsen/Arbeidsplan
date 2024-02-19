@@ -1,5 +1,6 @@
 from flask import Flask
-from datetime import datetime, timedelta
+from datetime import datetime
+import os
 
 from utils import auth_required
 
@@ -14,6 +15,7 @@ app = Flask(__name__)
 def render_plan():
     file = open('tables.html','r')
     tables = file.read()
+    file.close()
     tables = tables.replace('min-oversikt','table table-dark table-hover table-bordered')
     tables = tables.replace('<h2>','<h2 class="display-4 text-center">')
     tables = tables.replace('<p>','<p class="lead">')
@@ -24,20 +26,29 @@ def render_plan():
     return html
 
 def check_data():
-    file = open('tables.html','r')
-    data = file.read()
-    time_data = data.splitlines()[len(data.splitlines())-1]
-    time_data = time_data.replace('<p>Extracted: ','')
-    time_data = time_data.replace('</p>','')
-    time_data_last_collected = datetime.strptime(time_data,"%Y-%m-%d %H:%M:%S.%f")
-    time_since_last_update =  datetime.now()-time_data_last_collected
-    print(str(time_since_last_update.total_seconds()/60/60))
-    #print(time_data.hour)
+    try:
+        file = open('tables.html','r')
+        data = file.read()
+        file.close()
+        time_data = data.splitlines()[len(data.splitlines())-1]
+        time_data = time_data.replace('<p>Extracted: ','')
+        time_data = time_data.replace('</p>','')
+        time_data_last_collected = datetime.strptime(time_data,"%Y-%m-%d %H:%M:%S.%f")
+        time_since_last_update =  datetime.now()-time_data_last_collected
+        print(str(time_since_last_update.total_seconds()/60/60))
+        # if the data is more than 6 hours old, rescrape data.
+        if ( time_since_last_update.total_seconds()/60/60 >= 6 ):
+            os.system('python main.py')
 
+    except:
+        print('No table data found, scraping again')
+        #call(["python", "main.py"])
+        os.system('python main.py')
 
 @app.route('/')
 @auth_required
 def index():
+    check_data()
     return render_plan()
 
 if __name__ == '__main__':
