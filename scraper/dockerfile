@@ -30,7 +30,7 @@ RUN chmod +x /app/main.py
 #RUN echo $(which python) #find the location of the python interpeter
 
 
-CMD [ "python", "main.py" ]
+CMD [ "python", "app.py" ]
 
 #CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']
 #CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']

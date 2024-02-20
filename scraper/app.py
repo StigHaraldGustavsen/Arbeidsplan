@@ -42,7 +42,6 @@ def check_data():
 
     except:
         print('No table data found, scraping again')
-        #call(["python", "main.py"])
         os.system('python main.py')
 
 @app.route('/')
