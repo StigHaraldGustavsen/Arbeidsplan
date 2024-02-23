@@ -10,27 +10,25 @@ RUN apt-get update && apt-get install -y unzip && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb && \
-    apt-get -y install cron vim && \
     apt-get clean
-
-COPY crontab /etc/cron.d/crontab
-#COPY createEnviroment.sh /app/createEnviroment.sh
 
 COPY main.py /app/main.py
 
 # Add Python path to cron
 #RUN echo "PATH=/usr/local/bin:\$PATH" > /etc/cron.d/cron_env
 
-# Cron Job
-RUN chmod 0644 /etc/cron.d/crontab
 RUN chmod +x /app/createEnviroment.sh
 
-RUN /usr/bin/crontab /etc/cron.d/crontab
 RUN chmod +x /app/main.py
+RUN chmod +x /app/run_gunicorn.sh
+#RUN chmod +x /app/run_gunicorn.sh
 #RUN echo $(which python) #find the location of the python interpeter
+EXPOSE 5000
+#CMD ["poetry", "run", "flask", "--app", "webuncert/app", "run", "--port=5000","--host=0.0.0.0"]
 
-
-CMD [ "python", "app.py" ]
+#CMD [ "python", "app.py" ]
+CMD ["./run_gunicorn.sh"]
+#CMD ['gunicorn', '-w', '4', '-b', '0.0.0.0:5000', 'app:app']
 
 #CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']
 #CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']

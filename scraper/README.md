@@ -16,3 +16,12 @@ poetry install
 poetry run python app.py
 poetry run python main.py
 ```
+if local not from docker file:
+#### Activate the virtual environment
+source /path/to/your/.venv/bin/activate
+
+
+```bash
+chmod +x run_gunicorn.sh
+./run_gunicorn.sh
+```
