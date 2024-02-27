@@ -14,24 +14,25 @@ RUN apt-get update && apt-get install -y unzip && \
 
 COPY main.py /app/main.py
 
-# Add Python path to cron
-#RUN echo "PATH=/usr/local/bin:\$PATH" > /etc/cron.d/cron_env
-
+#Scripts to poetentally use, set them to excecutable.
 RUN chmod +x /app/createEnviroment.sh
-
 RUN chmod +x /app/main.py
 RUN chmod +x /app/run_gunicorn.sh
-#RUN chmod +x /app/run_gunicorn.sh
-#RUN echo $(which python) #find the location of the python interpeter
-EXPOSE 5000
+
+EXPOSE 5000 
+
+#Development RUN
 #CMD ["poetry", "run", "flask", "--app", "webuncert/app", "run", "--port=5000","--host=0.0.0.0"]
 
 #CMD [ "python", "app.py" ]
+
+#Run FLASK application through gunicorn WSGI 
 CMD ["./run_gunicorn.sh"]
+
 #CMD ['gunicorn', '-w', '4', '-b', '0.0.0.0:5000', 'app:app']
 
+#If you need to create a new .env file.
 #CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']
 #CMD ["sh", "-c", 'echo', '"ULOBA_USERNAME=${ULOBA_USERNAME}"', '>', '.env', '&&', 'echo', '"ULOBA_PASSWORD=${ULOBA_PASSWORD}"', '>', '.env', '&&', 'cron', '-f']
 #CMD ["sh", '-c', './app/creatEnviroment.sh', '&&', 'cron', '-f']
 #CMD ["./createEnviroment.sh", "&&", "cron", "-f"]
-#CMD ["cron", "-f"]
