@@ -1,4 +1,4 @@
-# Uloba Arbeidsplan shareing web application
+# Uloba workschedule sharing web application
 
 BPA's of ulloba struggle with that they can only see their own shifts, and the manager needs to manually share the shift plan. This automats this.
 
