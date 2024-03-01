@@ -5,7 +5,7 @@ BPA's of ulloba struggle with that they can only see their own shifts, and the m
 
 but this web app collects the plan automatically on an irregular cadence. but several times a day if someone needs it. if it is not needed then it does not collect it either.
 
-#Run the application in docker
+## Run the application in docker
 
 change the enviromental variables in the -e parameters.
 ```bash
