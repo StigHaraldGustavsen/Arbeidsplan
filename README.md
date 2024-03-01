@@ -46,29 +46,26 @@ docker container run --env-file .env --restart unless-stopped -d -p 1000:5000 ar
 
 ## Run the application in local enviroment.
 
-Run production application
+### Run production application
 ```bash
 chmod +x run_gunicorn.sh
 ./run_gunicorn.sh
 ```
 
-Run web app (flask) develompent
+### Run web app (flask) develompent
 ```bash
 poetry config virtualenvs.in-project true
 poetry install
 poetry run python app.py
 ```
 
-Single Scrape
+### Single Scrape
 ```bash
 poetry config virtualenvs.in-project true
 poetry install
 poetry run python main.py
 ```
 
-```bash
-
-```
 if local not from docker file:
 #### Activate the virtual environment
 source /path/to/your/.venv/bin/activate
