@@ -52,13 +52,11 @@ chmod +x run_gunicorn.sh
 ./run_gunicorn.sh
 ```
 
-Run develompent
+Run web app (flask) develompent
 ```bash
 poetry config virtualenvs.in-project true
 poetry install
 poetry run python app.py
-poetry run python main.py
-
 ```
 
 Single Scrape
@@ -66,7 +64,6 @@ Single Scrape
 poetry config virtualenvs.in-project true
 poetry install
 poetry run python main.py
-
 ```
 
 ```bash
