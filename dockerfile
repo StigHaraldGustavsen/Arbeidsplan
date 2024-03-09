@@ -19,6 +19,8 @@ RUN chmod +x /app/createEnviroment.sh
 RUN chmod +x /app/main.py
 RUN chmod +x /app/run_gunicorn.sh
 
+ENV TZ=Europe/Oslo
+
 EXPOSE 5000 
 
 #Development RUN
