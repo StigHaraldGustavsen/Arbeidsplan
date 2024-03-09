@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from datetime import datetime
 import os
 
@@ -16,15 +16,12 @@ def render_plan():
     file = open('tables.html','r')
     tables = file.read()
     file.close()
-    tables = tables.replace('min-oversikt','table table-dark table-hover table-bordered')
-    tables = tables.replace('<h2>','<h2 class="display-4 text-center">')
-    tables = tables.replace('<p>','<p class="lead">')
+    tables = tables.replace('min-oversikt','table table-dark table-hover table-bordered text-light')
+    tables = tables.replace('<h2>','<h2 class="display-4 text-center text-light">')
+    tables = tables.replace('<p>','<p class="lead text-light">')
     tables = tables.replace('BPA','') #Hvorfor skriver folk BPA inn i rubrikkene? 
-    head = '<html>\n<head>\n<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">'
-    head = head+ f'<title>BPA Arbeidsplan</title> <head>'
-    Body = '<body>' + '<div class="container"> <div class="mx-auto">' +tables+'</div></div></body></html>'
-    html = head+Body
-    return html
+    table_html = '<div class="container"> <div class="mx-auto">' +tables+'</div></div>'
+    return table_html
 
 def check_data():
     try:
@@ -48,6 +45,11 @@ def check_data():
 @app.route('/')
 @auth_required
 def index():
+    return render_template('index.html')
+
+@app.route('/get_plan')
+@auth_required
+def get_plan():
     check_data()
     return render_plan()
 
