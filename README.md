@@ -15,11 +15,12 @@ docker container run -d \
 -p 5000:5000 \
 -e ULOBA_USERNAME='username@mail.com' \ 
 -e ULOBA_PASSWORD='the uloba password' \ 
--e EVERYONES_USERNAME='BPA' \ 
+-e EVERYONES_USERNAME='BPA' \
 -e EVERYONES_PASSWORD='BPA_password' \
 --restart unless-stopped \ 
 arbeidsplan
 ```
+
 
 Not it runns on http://localhost:5000, under a WSGI server, so if neede it can be put behind a webserver like Nginx or apache if so needs be. https is not yet enabled. so use http and not https, to get this to work. add https with your own web server.
 
@@ -40,7 +41,12 @@ chmod +x createEnviroment.sh
 #you can also just manually create a .env file, .env.bak is examle, but rename file to ".env"
 
 docker build -t arbeidsplan .
-docker container run --env-file .env --restart unless-stopped -d -p 1000:5000 arbeidsplan
+docker container run --env-file .env --restart unless-stopped -d -p 5000:5000 arbeidsplan
+```
+
+# fisk
+```bash
+docker container run -d -p 5000:5000 --restart unless-stopped arbeidsplan
 ```
 
 
